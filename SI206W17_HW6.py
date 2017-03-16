@@ -35,6 +35,10 @@ class Student():
     def write_programs(self, num = 1):
         self.num_programs = self.num_programs + num
 
+    #Problem 6 additional method here
+    def programming_productivity(self):
+        return self.num_programs / self.years_UM
+
 #### DONE WITH STUDENT CLASS DEFINITION
 
     
@@ -118,7 +122,12 @@ print("\n\n***** Problem 6 *****")
 
 ## You may add a method to the Student class if you wish in order to do this, but you do not need to. (If you do, make sure you do not create any syntax errors that keep code/tests from running!)
 
+def sqr(x):
+    return (x.num_programs / x.years_UM)
 
+prod_iter = map(sqr, programmers)
+
+prod_list = list(prod_iter)
 
 ## [PROBLEM 7]
 print("\n\n***** Problem 7 *****")
