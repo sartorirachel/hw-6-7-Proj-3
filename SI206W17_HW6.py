@@ -58,10 +58,11 @@ print("\n\n***** Problem 2 *****")
 ## The function should return the new list of accumulated -- mapped! -- values.
 ## HINT: you should be able to write this in 5 lines of code or fewer! 
 
-
-
-
-
+def personal_map(funct_obj, lst1):
+    new_list = []
+    for item in lst1:
+        new_list.append(funct_obj(item))
+    return new_list
 
 ## [PROBLEM 3]
 print("\n\n***** Problem 3 *****")
