@@ -135,7 +135,7 @@ print("\n\n***** Problem 7 *****")
 
 ## But be careful that if you use answers from previous problems, you use the LISTs you generated, so that all your tests can still pass and you avoid confusion!
 
-
+names_and_productivities = list(zip(names, prod_list))
 
 ## [PROBLEM 8]
 print("\n\n***** Problem 8 *****")
