@@ -32,6 +32,8 @@ class Student():
 
     # Define the additional method here
     
+    def write_programs(self, num = 1):
+        self.num_programs = self.num_programs + num
 
 #### DONE WITH STUDENT CLASS DEFINITION
 
