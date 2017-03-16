@@ -154,8 +154,7 @@ print("\n\n***** Problem 9 *****")
 
 ## Note that you can use another list you have already created for this problem.
 
-
-
+names_with_not_too_much_seniority = [z.name for z in filter(lambda x: len(x.name) > x.years_UM, programmers)]
 
 ## [PROBLEM 10]
 print("\n\n***** Problem 10 *****")
