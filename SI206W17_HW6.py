@@ -78,6 +78,7 @@ def access_third_elem(seq):
 
 # Write your equivalent function and assignment statement here
 
+sample_func = (lambda x: x[2])
 
 ## [PROBLEM 4]
 print("\n\n***** Problem 4 *****")
