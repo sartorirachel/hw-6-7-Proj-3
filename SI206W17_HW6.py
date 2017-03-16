@@ -162,7 +162,7 @@ print("\n\n***** Problem 10 *****")
 ## Define a function called readfiles, which accepts a list of filenames as input and yields each line in each of the file with that name, assuming those files exist in the same directory as this program.
 
 ## Define a generator called len_check which accepts a generator of file lines and returns a generator object of all the lines it's accepted whose length is longer than 40 characters.
-
+ 
 ## Finally, write a function called main_filterer that accepts a list of filenames (strings), and returns a generator of all the lines in those files that are longer than 40 characters. The function should invoke the other function and generator, readfiles and len_check.
 
 ## There is a test for this but an even more fun test is to uncomment the code below which invokes the main_filterer function and prints each line from the generator without blank lines in between (that's what the comma is doing).
@@ -173,18 +173,36 @@ print("\n\n***** Problem 10 *****")
 
 # Define readfiles (make sure to close the file reference in the right place)
 
-
+def readfiles(filenames_lst):
+    lst1 = []
+    for file in filenames_lst:
+        file1 = open(file, 'r')
+        file2 = file1.readlines()
+        file1.close()
+        lst1.extend(file2)
+    return lst1
 # Define len_check
 
+def len_check(file_lines):
+    lst1 = []
+    for line in file_lines:
+        if len(line) > 40:
+            lst1.append(line)
+    return lst1
 
 # Define main_filterer
 
-
+def main_filterer(filenames_lst2):
+    lst1 = []
+    x = readfiles(filenames_lst2)
+    y = len_check(x)
+    lst1.extend(y)
+    return lst1
 
 ## Uncomment this code to test so you can see easily what results from your code. DO uncomment it. DO NOT delete or change it. (You can add other code above while you work, of course.)
-# provided_file_names = ["samplehw6_1.txt","samplehw6_2.txt"]
-# for ln in main_filterer(provided_file_names):
-#     print(ln.rstrip('\n'), end=" ")
+provided_file_names = ["samplehw6_1.txt","samplehw6_2.txt"]
+for ln in main_filterer(provided_file_names):
+    print(ln.rstrip('\n'), end=" ")
 #####
 
 
