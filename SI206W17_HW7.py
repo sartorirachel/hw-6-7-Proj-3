@@ -55,9 +55,17 @@ except:
 # Your function must cache data it retrieves and rely on a cache file!
 # Note that this is a lot like work you have done already in class (but, depending upon what you did previously, may not be EXACTLY the same, so be careful your code does exactly what you want here).
 
-
-
-
+def get_user_tweets(user_handle):
+	unique_identifier = "twitter_{}".format(user_handle)
+	if unique_identifier in CACHE_DICTION:
+		public_tweets = CACHE_DICTION[unique_identifier]
+	else:
+		public_tweets = api.user_timeline(user_handle)
+		CACHE_DICTION[unique_identifier] = public_tweets
+		cache_file = open(CACHE_FNAME, 'w')
+		cache_file.write(json.dumps(CACHE_DICTION))
+		cache_file.close()
+	return public_tweets
 
 # Write code to create/build a connection to a database: tweets.db,
 # And then load all of those tweets you got from Twitter into a database table called Tweets, with the following columns in each row:
