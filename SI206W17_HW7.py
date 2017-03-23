@@ -135,11 +135,12 @@ more_than_2_rts = cur.execute(query).fetchall()
 
 # Select all of the TEXT values of the tweets that are retweets of another account (i.e. have "RT" at the beginning of the tweet text). Save the FIRST ONE from that group of text values in the variable first_rt. Note that first_rt should contain a single string value, not a tuple.
 
-
+query = "SELECT tweet_text FROM Tweets WHERE tweet_text LIKE 'RT%' "
+first_rt = cur.execute(query).fetchone()[0]
 
 # Finally, done with database stuff for a bit: write a line of code to close the cursor to the database.
 
-
+conn.close()
 
 ## [PART 3] - Processing data
 
