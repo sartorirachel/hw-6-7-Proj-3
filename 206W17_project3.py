@@ -14,7 +14,7 @@ import twitter_info # same deal as always...
 import json
 import sqlite3
 
-## Your name:
+## Your name: Rachel Sartori
 ## The names of anyone you worked with on this project:
 
 #####
