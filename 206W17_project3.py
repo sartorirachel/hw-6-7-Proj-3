@@ -10,6 +10,7 @@ import unittest
 import itertools
 import collections
 import tweepy
+import re
 import twitter_info # same deal as always...
 import json
 import sqlite3
@@ -194,17 +195,36 @@ for element in cur:
 
 ## Use a set comprehension to get a set of all words (combinations of characters separated by whitespace) among the descriptions in the descriptions_fav_users list. Save the resulting set in a variable called description_words.
 
-
+description_words = set()
+for element in descriptions_fav_users:
+	match = re.findall(r'(\S+)', element)
+	if match:
+		for each in match:
+			description_words.add(each)
+		else:
+			description_words = set()
 
 ## Use a Counter in the collections library to find the most common character among all of the descriptions in the descriptions_fav_users list. Save that most common character in a variable called most_common_char. Break any tie alphabetically (but using a Counter will do a lot of work for you...).
 
-
+from collections import Counter
+c = Counter()
+for wrd in descriptions_fav_users:
+	for match in re.findall('\S', wrd):
+		c.update(match.lower())
+inverse = [(value, key) for key, value in c.items()]
+most_common_char = max(inverse)[1]
 
 ## Putting it all together...
 # Write code to create a dictionary whose keys are Twitter screen names and whose associated values are lists of tweet texts that that user posted. You may need to make additional queries to your database! To do this, you can use, and must use at least one of: the DefaultDict container in the collections library, a dictionary comprehension, list comprehension(s). Y
 # You should save the final dictionary in a variable called twitter_info_diction.
 
-
+query = 'SELECT description FROM Users'
+description_text = cur.execute(query).fetchall()
+description_text_two = []
+description_text_two = [y for x in description_text for y in x]
+twitter_info_diction = {}
+for x in screen_names:
+	twitter_info_diction[x] = description_text_two
 
 ### IMPORTANT: MAKE SURE TO CLOSE YOUR DATABASE CONNECTION AT THE END OF THE FILE HERE SO YOU DO NOT LOCK YOUR DATABASE (it's fixable, but it's a pain). ###
 
