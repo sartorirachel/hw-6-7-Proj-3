@@ -74,7 +74,7 @@ umich_tweets = get_user_tweets('umich')
 # table Tweets, with columns:
 # - tweet_id (containing the string id belonging to the Tweet itself, from the data you got from Twitter) -- this column should be the PRIMARY KEY of this table
 # - text (containing the text of the Tweet)
-# - user_posted (an ID string, referencing the Users table, see below)
+# - user_id (an ID string, referencing the Users table, see below)
 # - time_posted (the time at which the tweet was created)
 # - retweets (containing the integer representing the number of times the tweet has been retweeted)
 
@@ -96,15 +96,61 @@ umich_tweets = get_user_tweets('umich')
 ## HINT #2: You may want to go back to a structure we used in class this week to ensure that you reference the user correctly in each Tweet record.
 ## HINT #3: The users mentioned in each tweet are included in the tweet dictionary -- you don't need to do any manipulation of the Tweet text to find out which they are! Do some nested data investigation on a dictionary that represents 1 tweet to see it!
 
+conn = sqlite3.connect('project3_tweets.db')
+cur = conn.cursor()
 
+statement = ('DROP TABLE IF EXISTS Tweets')
+cur.execute(statement)
+table_spec = 'CREATE TABLE IF NOT EXISTS '
+table_spec += 'Tweets (tweet_id TEXT PRIMARY KEY, '
+table_spec += 'text TEXT, user_id TEXT, time_posted TIMESTAMP, retweets INTEGER)'
+cur.execute(table_spec)
 
+statement = ('DROP TABLE IF EXISTS Users')
+cur.execute(statement)
+table_spec = 'CREATE TABLE IF NOT EXISTS '
+table_spec += 'Users (user_id TEXT PRIMARY KEY, '
+table_spec += 'screen_name TEXT, num_favs INTEGER, description TEXT)'
+cur.execute(table_spec)
 
+tweet_list = []
+for i in range(len(umich_tweets)):
+	tweet_id = umich_tweets[i]['id']
+	text = umich_tweets[i]['text']
+	user_id = umich_tweets[i]['user']['id_str']
+	time_posted = umich_tweets[i]['created_at']
+	retweets = umich_tweets[i]['retweet_count']
+	tweet_list.append((tweet_id, text, user_id, time_posted, retweets))
 
+statement = 'INSERT INTO Tweets VALUES (?,?,?,?,?)'
+for element in tweet_list:
+	cur.execute(statement, element)
 
+statement = 'INSERT OR IGNORE INTO Users VALUES (?,?,?,?)'
+for element in umich_tweets:
+	user_id = element['user']['id_str']
+	screen_name = element['user']['screen_name']
+	num_favs = element['user']['favourites_count']
+	description = element['user']['description']
+	cur.execute(statement, (user_id, screen_name, num_favs, description))
 
+user_mention = []
+for element in umich_tweets:
+	foo = element['entities']['user_mentions']
+	for value in range(len(foo)):
+		user_mention.append(foo[value]['screen_name'])
 
+for element in user_mention:
+	statement = 'INSERT OR IGNORE INTO Users VALUES (?,?,?,?)'
+	mention_value = get_user_tweets(element)
+	for value in mention_value:
+		user_id = value['user']['id_str']
+		screen_name = value['user']['screen_name']
+		num_favs = value['user']['favourites_count']
+		description = value['user']['description']
+		cur.execute(statement, (user_id, screen_name, num_favs, description))
 
-
+conn.commit()
 
 ## Task 3 - Making queries, saving data, fetching data
 
