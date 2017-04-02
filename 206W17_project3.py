@@ -185,11 +185,8 @@ for element in cur:
 
 # Make a query using an INNER JOIN to get a list of tuples with 2 elements in each tuple: the user screenname and the text of the tweet -- for each tweet that has been retweeted more than 50 times. Save the resulting list of tuples in a variable called joined_result.
 
-query = 'SELECT Tweets.text, Users.screen_name FROM Tweets INNER JOIN Users ON Users.user_id = Tweets.user_id WHERE Tweets.retweets > 50'
-cur.execute(query)
-joined_result = []
-for element in cur:
-	joined_result.append(element)
+query = 'SELECT screen_name FROM Users INNER JOIN Tweets ON Users.user_id = Tweets.user_id WHERE Tweets.retweets > 5'
+joined_result = cur.execute(query).fetchall()
 
 ## Task 4 - Manipulating data with comprehensions & libraries
 
